@@ -1,532 +1,691 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akun Saya - CLEVR</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>CLEVR - My Profile</title>
     
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
+    <!-- Bootstrap 5 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
-        /* CSS Kustom (Hanya yang relevan) */
-        body {
-            font-family: 'Fredoka', sans-serif; /* Diubah ke Fredoka */
-            background-color: #f7fafc; /* bg-gray-100 */
-        }
-        
-        .logo {
-            font-family: 'Fredoka One', sans-serif !important;
-            font-size: 2.5rem !important; /* Ukuran asli Bootstrap ~1.25rem */
-            font-weight: 450;
-            color: #011A5A;
-        }
-        
-        .d-none {
-            display: none !important;
+        /* --- 1. Base Styles --- */
+        :root {
+            --clevr-purple: #827BFF;
+            --clevr-dark: #011A5A;
+            --clevr-orange: #FDA700;
+            --clevr-light: #F3F4F6;
+            --clevr-green: #4ade80;
+            --clevr-pink: #F3A6CE;
         }
 
-        /* Animasi untuk Notifikasi Modal */
-        .notification-modal-content {
-            transition: all 0.3s ease-in-out;
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: #333;
+            background-color: #fff;
         }
-        .notification-modal-content.show {
-            transform: translateY(0);
+
+        /* --- 2. Custom Colors Utilities --- */
+        .bg-clevr-purple { background-color: var(--clevr-purple) !important; }
+        .bg-clevr-dark { background-color: var(--clevr-dark) !important; }
+        .bg-clevr-orange { background-color: var(--clevr-orange) !important; }
+        .bg-clevr-light { background-color: var(--clevr-light) !important; }
+        .bg-clevr-pink { background-color: var(--clevr-pink) !important; }
+        
+        .text-clevr-purple { color: var(--clevr-purple) !important; }
+        .text-clevr-dark { color: var(--clevr-dark) !important; }
+        .text-clevr-orange { color: var(--clevr-orange) !important; }
+        .text-clevr-green { color: var(--clevr-green) !important; }
+
+        /* --- 3. Navbar Styles --- */
+        .navbar-custom {
+            height: 80px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-right: 1.5rem;
+            transition: opacity 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
             opacity: 1;
         }
-        .notification-modal-content.hide {
-            transform: translateY(-50px);
-            opacity: 0;
+        
+        .profile-nav-img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border: 2px solid white;
         }
+
+        /* --- 4. Profile Specific Components --- */
+        
+        .card-custom {
+            border: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            background: white;
+            overflow: hidden;
+        }
+
+        /* Profile Sidebar Card */
+        .profile-header-card {
+            text-align: center;
+            padding: 2rem;
+        }
+        .profile-big-img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border: 4px solid var(--clevr-purple);
+            padding: 3px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+        .level-badge {
+            background-color: var(--clevr-dark);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            height: 100%;
+            display: flex;
+            align-items: flex-start; 
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+            color: white;
+            border: none;
+            position: relative;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-icon-bg {
+            background-color: rgba(255,255,255,0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Top Up Button in Stat Card */
+        .btn-topup {
+            background-color: white;
+            color: var(--clevr-orange);
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            margin-top: 0.5rem;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        .btn-topup:hover {
+            background-color: #fff8e1; 
+            transform: scale(1.05);
+        }
+
+        /* Badges Section */
+        .badge-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 1rem;
+            background-color: var(--clevr-light);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .badge-item:hover {
+            background-color: #e0e7ff;
+        }
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .badge-locked {
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+
+        /* Class List Item */
+        .class-list-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s;
+        }
+        .class-list-item:hover {
+            background-color: #f9fafb;
+        }
+        .class-list-item:last-child {
+            border-bottom: none;
+        }
+        .subject-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Buttons */
+        .btn-animate {
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-animate:hover {
+            transform: scale(1.02);
+        }
+        .btn-edit {
+            background-color: #f3f4f6;
+            color: var(--clevr-dark);
+            font-weight: 600;
+            border: none;
+        }
+        .btn-edit:hover {
+            background-color: #e5e7eb;
+        }
+
+        /* Icon kecil clover hijau */
+        .clover-icon {
+            color: #4ade80; /* Green */
+        }
+        
+        /* Toast Notification */
+        .custom-toast {
+            visibility: hidden;
+            min-width: 300px;
+            background-color: var(--clevr-dark);
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px 24px;
+            position: fixed;
+            z-index: 1060; 
+            left: 50%;
+            top: -100px;
+            transform: translateX(-50%);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .custom-toast.show {
+            visibility: visible;
+            opacity: 1;
+            top: 40px;
+        }
+        
+        /* Cursor Pointer Utility */
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
     </style>
 </head>
-<body class="text-gray-800">
+<body>
 
-    <div id="profilePage">
-        <header class="bg-white shadow-sm sticky top-0 z-50">
-            <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-                
-                <a class="logo" id="nav-logo-profile" href="#">CLEVR</a>
-                 
-                <div class="relative flex-grow mx-8 hidden md:block">
-                     <input type="text" placeholder="Search is disabled on this page" class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 bg-gray-100 cursor-not-allowed" autocomplete="off" disabled>
-                </div>
-                <nav id="profile-nav" class="flex items-center space-x-4">
-                     <div class="clover-wallet flex items-center space-x-2 bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-full transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path d="M15.42 4.58a7.5 7.5 0 1 0 0 10.84 7.5 7.5 0 0 0 0-10.84zM10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M10 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 14a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1zM4.93 4.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 1-1.42 1.41L4.93 6.34a1 1 0 0 1 0-1.41zm10.6 10.6a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 1-1.42 1.41l-1.41-1.42a1 1 0 0 1 0-1.41zM2 10a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2H3a1 1 0 0 1-1-1zm14 0a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1zm-2.12-5.07a1 1 0 0 1 1.41 0l1.42-1.42a1 1 0 1 1 1.41 1.42l-1.41 1.41a1 1 0 0 1-1.41-1.41zM4.93 15.07a1 1 0 0 1 1.41 0l-1.42 1.42a1 1 0 0 1-1.41-1.42l1.41-1.41z"/></svg>
-                        <span class="clover-balance">150</span>
-                        <svg class="openCloverModalBtn h-5 w-5 text-green-700 cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-125 hover:drop-shadow-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                    </div>
-                    <a href="home_user.html?view=myclasses" class="relative p-2 rounded-full hover:bg-gray-200 transition-colors group nav-my-classes">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 group-hover:text-purple-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" /></svg>
-                         <span class="new-class-indicator absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 d-none"></span>
-                    </a>
-                    <a href="#" class="p-2 rounded-full bg-gray-200 transition-colors group nav-profile">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 group-hover:text-purple-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                    </a>
-                </nav>
-            </div>
-        </header>
-        <main class="container mx-auto px-4 py-8">
-            <div class="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
-                <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left space-y-4 sm:space-y-0 sm:space-x-8">
-                    <img id="profile-page-image" src="https://placehold.co/128x128" alt="Profile Picture" class="w-32 h-32 rounded-full border-4 border-purple-200">
-                    <div id="profile-header-content" class="flex-grow">
-                          </div>
-                </div>
-                <div id="profile-details-content" class="mt-8 border-t pt-6 space-y-4">
-                      </div>
-            </div>
-        </main>
+    <!-- Notification Toast -->
+    <div id="profileToast" class="custom-toast">
+        <i class="fa-solid fa-check-circle text-clevr-green"></i>
+        <span id="toastMessage">Profile Updated Successfully!</span>
     </div>
 
-    <div id="buyCloverModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[100] d-none">
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md">
-            <div class="p-6 border-b flex justify-between items-center">
-                <h3 id="payment-modal-title" class="text-2xl font-bold text-gray-800">Buy Clovers</h3>
-                <button id="closeCloverModalBtn" class="text-gray-500 hover:text-gray-800 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-            </div>
-            <div class="p-6 max-h-[60vh] overflow-y-auto">
-                <div id="clover-packages-container" class="space-y-4">
-                    </div>
-                <div id="payment-methods-container" class="d-none">
-                    <button class="w-full text-left p-2 hover:bg-gray-100 mb-2 payment-back-btn">&larr; Back to packages</button>
-                    <h4 class="font-bold text-lg mb-4">Choose a Payment Method</h4>
-                    <div class="space-y-3">
-                        <button data-method="GoPay" class="payment-method-btn w-full text-left p-4 border rounded-lg flex justify-between items-center hover:bg-gray-50">GoPay <span>&rarr;</span></button>
-                        <button data-method="QRIS" class="payment-method-btn w-full text-left p-4 border rounded-lg flex justify-between items-center hover:bg-gray-50">QRIS <span>&rarr;</span></button>
-                        <button data-method="Dana" class="payment-method-btn w-full text-left p-4 border rounded-lg flex justify-between items-center hover:bg-gray-50">Dana <span>&rarr;</span></button>
-                        <button data-method="MyBCA" class="payment-method-btn w-full text-left p-4 border rounded-lg flex justify-between items-center hover:bg-gray-50">MyBCA <span>&rarr;</span></button>
-                        <button data-method="Livin' Mandiri" class="payment-method-btn w-full text-left p-4 border rounded-lg flex justify-between items-center hover:bg-gray-50">Livin' Mandiri <span>&rarr;</span></button>
-                    </div>
+    <!-- Notification Toast for Class Redirect -->
+    <div id="redirectToast" class="custom-toast">
+        <i class="fa-solid fa-rocket text-clevr-orange"></i>
+        <span>Redirecting to class...</span>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom bg-clevr-purple px-4 px-md-5 sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white fs-3 fw-bold tracking-wide me-5" href="home.html">
+                CLEVR
+            </a>
+
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="jokitugas.html">Task Market</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="findtutor.html">Find Tutor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="myclasses.html">My Classes</a></li>
+                </ul>
+
+                <!-- Top Up Wallet Section -->
+                <div class="d-flex align-items-center bg-white rounded-pill px-3 py-1 me-4 shadow-sm" style="height: 45px;">
+                    <i class="fa-solid fa-clover clover-icon fs-5 me-2"></i>
+                    <span id="wallet-balance" class="fw-bold text-clevr-dark me-3" style="font-size: 1.1rem;">1,250</span>
+                    <button onclick="window.location.href='topup.html'" class="btn bg-clevr-orange text-clevr-dark rounded-circle p-0 d-flex align-items-center justify-content-center btn-animate" style="width: 28px; height: 28px;" title="Top Up Clovr">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
                 </div>
-                <div id="payment-instructions-container" class="d-none">
-                    <button class="w-full text-left p-2 hover:bg-gray-100 mb-2 payment-back-btn">&larr; Back to methods</button>
-                    <h4 id="payment-instruction-title" class="font-bold text-lg mb-4">Payment Instructions</h4>
-                    <div id="payment-instruction-steps" class="text-gray-700 space-y-2">
-                        </div>
-                    <button id="confirm-transfer-btn" class="mt-6 w-full bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition-colors">I Have Transferred</button>
+
+                <!-- Profile Link -->
+                <div class="d-flex align-items-center profile-section">
+                    <img src="foto/user1.png" alt="Profile" class="rounded-circle me-3 shadow-sm profile-nav-img">
+                    <div class="profile-text d-none d-md-block text-start">
+                        <div class="fw-bold text-white" id="navName">Hayley Williams</div>
+                        <div class="small text-white-50">Student</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </nav>
 
-
-    <div id="notificationModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[150] d-none">
-        <div id="notification-content" class="notification-modal-content transform -translate-y-10 opacity-0 bg-white p-8 rounded-2xl shadow-xl text-center w-full max-w-sm">
-            <div id="notification-icon" class="mx-auto mb-4">
-                </div>
-            <p id="notification-message" class="text-lg font-medium text-gray-700">Notification message goes here.</p>
-            <button id="notification-close-btn" class="mt-6 bg-purple-600 text-white font-bold py-2 px-8 rounded-full hover:bg-purple-700 transition-colors">OK</button>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <main class="container py-5">
+        <div class="row g-4">
             
-            // === PERBAIKAN 1: OTENTIKASI & REDIRECT ===
-            // Ambil ID user dari localStorage
-            let currentLoggedInUser = localStorage.getItem('clevrLoggedInUserId');
-
-            // Jika tidak ada yang login (belum login),
-            // paksa kembali ke halaman login.
-            if (!currentLoggedInUser) {
-                window.location.href = 'login.html'; // Asumsi login page adalah index.html
-                return; // Hentikan eksekusi script ini
-            }
-            // === SELESAI PERBAIKAN 1 ===
-            
-            // === INI ADALAH BLOK KODE YANG ANDA INGINKAN ===
-            // Membuat logo CLEVR "pintar"
-            const logoLink = document.getElementById('nav-logo-profile'); // Sekarang ID ini akan ditemukan
-            if (logoLink) {
-                logoLink.addEventListener('click', function(e) {
-                    e.preventDefault(); // Mencegah link '#'
+            <!-- LEFT COLUMN: Personal Identity -->
+            <div class="col-lg-4">
+                <div class="card card-custom profile-header-card mb-4">
+                    <div class="position-relative d-inline-block mx-auto">
+                        <img src="foto/user1.png" alt="Hayley Williams" class="profile-big-img shadow-sm">
+                        <button class="btn btn-sm btn-primary position-absolute bottom-0 end-0 rounded-circle" style="width: 35px; height: 35px; border: 2px solid white;">
+                            <i class="fa-solid fa-camera"></i>
+                        </button>
+                    </div>
                     
-                    if (currentLoggedInUser === 'student') {
-                        window.location.href = 'home_user.html';
-                    } else if (tutors[currentLoggedInUser]) {
-                        // Asumsi jika bukan student, dia tutor
-                        window.location.href = 'home_tutor.html'; // Arahkan ke home tutor
-                    } else {
-                        // Fallback jika terjadi error
-                        window.location.href = 'login.html';
-                    }
-                });
-            }
-            // === SELESAI ===
-            
-            // --- DUMMY DATA (Hanya yang relevan) ---
-            
-            // === PERBAIKAN 2: AMBIL DATA DARI LOCALSTORAGE ===
-            // Pastikan kita memuat data yang KONSISTEN dari localStorage
-            // Ini adalah data yang sama dengan yang dimuat di home.js
-            
-            let user = JSON.parse(localStorage.getItem('clevrUser')) || {
-                clovers: 150
-            };
-            
-            // Data Tutors dan Student DIPERLUKAN oleh renderProfilePage
-            let tutors = JSON.parse(localStorage.getItem('clevrTutors')) || {
-                'Dara': { id: 'Dara', name: 'Dara Alifa Maulani', subject: 'Mathematics', education: 'Mathematics, Univ. of Indonesia', img: 'https://placehold.co/80x80/fde047/000000?text=DA', detailImg: 'https://placehold.co/128x128/fde047/000000?text=DA', bio: 'Dara is a passionate mathematician with 5 years of tutoring experience...', dob: 'June 10, 1992', address: '123 Math Lane, Jakarta' },
-                'Harven': { id: 'Harven', name: 'Marvelius Harven Adrian Lim ', subject: 'Science', education: 'Sociology, Gadjah Mada Univ.', img: 'https://placehold.co/80x80/4ade80/FFFFFF?text=BS', detailImg: 'https://placehold.co/128x128/4ade80/FFFFFF?text=BS', bio: 'Harven brings social studies to life...', dob: 'July 22, 1991', address: '456 Science Rd, Bandung' },
-                'Gita': { id: 'Gita', name: 'Gita Aulia Nugrogo', subject: 'Art & Design', education: 'Mathematics, Univ. of Indonesia', img: 'https://placehold.co/80x80/fde047/000000?text=DA', detailImg: 'https://placehold.co/128x128/fde047/000000?text=DA', bio: 'Gita is a passionate mathematician with 5 years of tutoring experience...', dob: 'June 10, 1992', address: '789 Art Blvd, Jakarta' },
-                'Atha': { id: 'Atha', name: 'Muhammad Athalladithya Rizky', subject: 'Programming', education: 'Sociology, Gadjah Mada Univ.', img: 'https://placehold.co/80x80/4ade80/FFFFFF?text=BS', detailImg: 'https://placehold.co/128x128/4ade80/FFFFFF?text=BS', bio: 'Atha brings social studies to life...', dob: 'July 22, 1991', address: 'Jl. Jeruk II No.23, Depok' },
-                // Data tutor lain akan ikut dimuat dari localStorage
-            };
+                    <h3 class="fw-bold text-clevr-dark mb-1" id="profileName">Hayley Williams</h3>
+                    <p class="text-secondary mb-2" id="profileGrade">Junior High School • Grade 8</p>
+                    
+                    <div class="level-badge">
+                        <i class="fa-solid fa-rocket me-1"></i> Level 5 Scholar
+                    </div>
 
-            let studentProfile = JSON.parse(localStorage.getItem('clevrStudentProfile')) || {
-                 name: 'Bima Satria', role: 'Student', dob: 'August 17, 2005', education: 'Grade 11, SMA Cendekia', address: '123 Learning St, Knowledge City', img: 'https://placehold.co/128x128/f87171/FFFFFF?text=BS', detailImg: 'https://placehold.co/128x128/f87171/FFFFFF?text=BS'
-            };
-            // === SELESAI PERBAIKAN 2 ===
+                    <div class="d-grid gap-2 mt-3">
+                        <button class="btn btn-edit rounded-pill py-2 btn-animate" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                            <i class="fa-solid fa-pen-to-square me-2"></i> Edit Profile
+                        </button>
+                    </div>
 
-            let currentCloverPackage = null;
-            
-            const cloverPackages = [
-                { clovers: 50, price: 'Rp 10.000' },
-                { clovers: 100, price: 'Rp 20.000' },
-                { clovers: 250, price: 'Rp 50.000' },
-                { clovers: 500, price: 'Rp 95.000' }
-            ];
+                    <hr class="my-4 opacity-25">
 
-            // --- DOM Elements (Hanya yang relevan) ---
-            const profilePage = document.getElementById('profilePage');
-            const cloverBalanceEls = document.querySelectorAll('.clover-balance');
-            
-            // Modals
-            const notificationModal = document.getElementById('notificationModal');
-            const notificationContent = document.getElementById('notification-content');
-            const notificationIcon = document.getElementById('notification-icon');
-            const notificationMessage = document.getElementById('notification-message');
-            const notificationCloseBtn = document.getElementById('notification-close-btn');
-            const buyCloverModal = document.getElementById('buyCloverModal');
-            const closeCloverModalBtn = document.getElementById('closeCloverModalBtn');
-            const cloverPackagesContainer = document.getElementById('clover-packages-container');
-            const openCloverModalBtns = document.querySelectorAll('.openCloverModalBtn');
-            
-            
-            // === PERBAIKAN 3: TAMBAHKAN FUNGSI saveData ===
-            // Fungsi ini akan menyimpan data kembali ke localStorage
-            function saveData() {
-                localStorage.setItem('clevrUser', JSON.stringify(user));
-                // Jangan simpan 'bookedClasses' di sini karena halaman ini tidak mengelolanya
-                localStorage.setItem('clevrStudentProfile', JSON.stringify(studentProfile));
-                localStorage.setItem('clevrTutors', JSON.stringify(tutors));
-                console.log('Data profile saved to localStorage!');
-            }
-            // === SELESAI PERBAIKAN 3 ===
-            
+                    <div class="text-start">
+                        <h6 class="fw-bold text-clevr-dark mb-3">Contact Info</h6>
+                        <div class="d-flex align-items-center mb-3 text-secondary">
+                            <i class="fa-solid fa-envelope me-3" style="width: 20px;"></i>
+                            <span class="small fw-bold" id="profileEmail">hayleywill@example.com</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3 text-secondary">
+                            <i class="fa-solid fa-phone me-3" style="width: 20px;"></i>
+                            <span class="small fw-bold" id="profilePhone">+62 812-3456-7890</span>
+                        </div>
+                        <div class="d-flex align-items-center text-secondary">
+                            <i class="fa-solid fa-location-dot me-3" style="width: 20px;"></i>
+                            <span class="small fw-bold" id="profileCity">Sukoharjo, Indonesia</span>
+                        </div>
+                    </div>
+                </div>
 
-            // --- FUNCTIONS (Hanya yang relevan) ---
-
-            // Update Clover Display
-            const updateCloverDisplay = () => {
-                cloverBalanceEls.forEach(el => el.textContent = user.clovers);
-            };
-
-            // Show Notification (Sudah benar)
-            const showNotification = (message, isSuccess, showButton = true) => {
-                const successIcon = `<svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-                const failureIcon = `<svg class="w-16 h-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-                const loadingIcon = `<svg class="animate-spin h-16 w-16 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
-                
-                notificationMessage.textContent = message;
-
-                if (isSuccess === null) { // Loading state
-                    notificationIcon.innerHTML = loadingIcon;
-                } else {
-                     notificationIcon.innerHTML = isSuccess ? successIcon : failureIcon;
-                }
-                
-                notificationCloseBtn.style.display = showButton ? 'inline-block' : 'none';
-                notificationModal.classList.remove('d-none');
-                document.body.classList.add('overflow-hidden');
-                setTimeout(() => { notificationContent.classList.add('show'); }, 10);
-            };
-
-            const hideNotification = () => {
-                notificationContent.classList.remove('show');
-                setTimeout(() => {
-                    notificationModal.classList.add('d-none');
-                    if(buyCloverModal.classList.contains('d-none')) {
-                       document.body.classList.remove('overflow-hidden');
-                    }
-                }, 300);
-            };
-
-            // Render Clover Packages (Sudah benar)
-            const renderCloverPackages = () => {
-                if (!cloverPackagesContainer) return; // Tambah penjaga jika elemen tidak ada
-                cloverPackagesContainer.innerHTML = '';
-                cloverPackages.forEach(pkg => {
-                    const pkgEl = document.createElement('div');
-                    pkgEl.className = 'flex justify-between items-center bg-gray-100 p-4 rounded-lg';
-                    pkgEl.innerHTML = `
+                <!-- Parent Account -->
+                <div class="card card-custom p-4 bg-clevr-light mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h6 class="fw-bold text-clevr-dark mb-0">Parent Account</h6>
+                        <span class="badge bg-success rounded-pill">Linked</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-secondary rounded-circle text-white d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
                         <div>
-                            <p class="font-bold text-lg text-green-600">${pkg.clovers} Clovers</p>
-                            <p class="text-gray-600">${pkg.price}</p>
+                            <div class="fw-bold text-dark small">Mrs. Sarah Aulia</div>
+                            <div class="text-secondary small" style="font-size: 0.75rem;">Mom</div>
                         </div>
-                        <button data-clovers="${pkg.clovers}" class="buy-clover-btn bg-green-600 text-white font-bold py-2 px-6 rounded-full hover:bg-green-700 transition-colors">Buy</button>
+                    </div>
+                </div>
+
+                <!-- LOGOUT BUTTON -->
+                <div class="d-grid">
+                    <a href="index.html" class="btn btn-outline-danger rounded-pill py-2 fw-bold btn-animate">
+                        <i class="fa-solid fa-right-from-bracket me-2"></i> Log Out
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN (Content) -->
+            <div class="col-lg-8">
+                
+                <!-- 1. Stats -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="stat-card bg-clevr-purple">
+                            <div>
+                                <div class="display-6 fw-bold" id="upcoming-count">3</div>
+                                <div class="small opacity-75 fw-bold">Upcoming Classes</div>
+                            </div>
+                            <div class="stat-icon-bg">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Top Up Clover -->
+                    <div class="col-md-4">
+                        <div class="stat-card bg-clevr-orange">
+                            <div>
+                                <div class="display-6 fw-bold">145</div>
+                                <div class="small opacity-75 fw-bold mb-1">Clover Balance</div>
+                                <button class="btn-topup">
+                                    <i class="fa-solid fa-plus me-1"></i> Top Up
+                                </button>
+                            </div>
+                            <div class="stat-icon-bg">
+                                <i class="fa-solid fa-clover"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stat-card bg-clevr-dark">
+                            <div>
+                                <div class="display-6 fw-bold">24h</div>
+                                <div class="small opacity-75 fw-bold">Learning Time</div>
+                            </div>
+                            <div class="stat-icon-bg">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Achievements -->
+                <div class="card card-custom p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold text-clevr-dark mb-0">My Achievements</h5>
+                        <a href="#" class="small text-clevr-purple fw-bold text-decoration-none">View All</a>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-6 col-md-3">
+                            <div class="badge-item" data-bs-toggle="tooltip" title="Completed your first class!">
+                                <span class="badge-icon">🚀</span>
+                                <div class="small fw-bold text-dark">First Steps</div>
+                                <div class="text-muted" style="font-size: 0.7rem;">Unlocked</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="badge-item" data-bs-toggle="tooltip" title="Asked 5 Questions in class">
+                                <span class="badge-icon">🙋‍♂️</span>
+                                <div class="small fw-bold text-dark">Active Asker</div>
+                                <div class="text-muted" style="font-size: 0.7rem;">Unlocked</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="badge-item" data-bs-toggle="tooltip" title="Attended 5 Math Classes">
+                                <span class="badge-icon">➗</span>
+                                <div class="small fw-bold text-dark">Math Whiz</div>
+                                <div class="text-muted" style="font-size: 0.7rem;">Unlocked</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="badge-item badge-locked" data-bs-toggle="tooltip" title="Complete 30 Days Streak">
+                                <span class="badge-icon">🔥</span>
+                                <div class="small fw-bold text-dark">On Fire</div>
+                                <div class="text-muted" style="font-size: 0.7rem;">Locked</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. My Class Schedule (DYNAMIC) -->
+                <div class="card card-custom p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold text-clevr-dark mb-0">My Class Schedule</h5>
+                        <a href="myclasses.html" class="small text-clevr-purple fw-bold text-decoration-none">View Full Schedule</a>
+                    </div>
+                    
+                    <div class="class-list" id="schedule-list">
+                        <!-- Items will be injected here via Javascript -->
+                        <div class="text-center py-4 text-muted">
+                            <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-clevr-dark">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <form id="editProfileForm">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">Full Name</label>
+                            <input type="text" class="form-control" id="inputName" value="Hayley Williams">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">Grade / Level</label>
+                            <input type="text" class="form-control" id="inputGrade" value="Junior High School • Grade 8">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label small fw-bold text-secondary">Phone Number</label>
+                                <input type="text" class="form-control" id="inputPhone" value="+62 812-3456-7890">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label small fw-bold text-secondary">City</label>
+                                <input type="text" class="form-control" id="inputCity" value="Sukoharjo, Indonesia">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-secondary">Email Address</label>
+                            <input type="email" class="form-control" id="inputEmail" value="hayleywill@example.com">
+                        </div>
+                        
+                        <button type="button" class="btn bg-clevr-dark text-white fw-bold w-100 py-2 rounded-3 btn-animate" onclick="saveProfile()">
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- WALLET LOGIC (SYNC WITH TOPUP) ---
+        function updateWalletUI() {
+            // Ambil saldo dari localStorage, atau default 1250
+            const balance = localStorage.getItem('clovrBalance') ? parseInt(localStorage.getItem('clovrBalance')) : 1250;
+            const walletElement = document.getElementById('wallet-balance');
+            if(walletElement) {
+                walletElement.innerText = balance.toLocaleString();
+            }
+        }
+        // Panggil saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', updateWalletUI);
+
+        // Initialize Tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        // Save Profile Function
+        function saveProfile() {
+            const newName = document.getElementById('inputName').value;
+            const newGrade = document.getElementById('inputGrade').value;
+            const newPhone = document.getElementById('inputPhone').value;
+            const newCity = document.getElementById('inputCity').value;
+            const newEmail = document.getElementById('inputEmail').value;
+
+            document.getElementById('profileName').innerText = newName;
+            document.getElementById('navName').innerText = newName; 
+            document.getElementById('profileGrade').innerText = newGrade;
+            document.getElementById('profilePhone').innerText = newPhone;
+            document.getElementById('profileCity').innerText = newCity;
+            document.getElementById('profileEmail').innerText = newEmail;
+
+            const modalEl = document.getElementById('editProfileModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+            modalInstance.hide();
+
+            const toast = document.getElementById("profileToast");
+            toast.className = "custom-toast show";
+            setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
+        }
+
+        // Show Notification for Class Start
+        function showNotification() {
+            const toast = document.getElementById("redirectToast");
+            toast.className = "custom-toast show";
+            setTimeout(function(){ 
+                toast.className = toast.className.replace("show", ""); 
+            }, 3000);
+        }
+
+        // --- DYNAMIC CLASS SCHEDULE LOGIC (SYNCED WITH MYCLASSES.HTML) ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('schedule-list');
+            const countDisplay = document.getElementById('upcoming-count');
+            
+            // 1. Ambil data real dari LocalStorage (Manual Booking)
+            const storedClasses = JSON.parse(localStorage.getItem('myClasses')) || [];
+
+            // 2. Data Palsu (Hardcoded) - Kelas Dara dari Home.html (Sama dengan myclasses.html)
+            const fakeClass = {
+                id: 'fake-dara-1',
+                time: 'Today, 15:00', 
+                subject: 'Mathematics', // Sedikit detail
+                tutorName: 'Dara'
+            };
+
+            // 3. Gabungkan Data
+            let allClasses = [fakeClass, ...storedClasses];
+
+            // Update Jumlah Kelas di Stat Card
+            if(countDisplay) countDisplay.innerText = allClasses.length;
+
+            // --- Parsing Waktu untuk Sorting ---
+            function getMinutes(timeStr) {
+                if (!timeStr) return 999999;
+                const str = timeStr.toLowerCase();
+                let addedMinutes = 0;
+                
+                if (str.includes('tomorrow') || str.includes('besok')) {
+                    addedMinutes = 24 * 60; 
+                } else if (str.includes('today') || str.includes('hari ini')) {
+                    addedMinutes = 0; 
+                } else {
+                    return 999999; 
+                }
+
+                const match = str.match(/(\d{1,2}):(\d{2})/);
+                if (match) {
+                    const hours = parseInt(match[1]);
+                    const minutes = parseInt(match[2]);
+                    return addedMinutes + (hours * 60) + minutes;
+                }
+                return addedMinutes;
+            }
+
+            // --- Helper: Get Subject Icon & Color ---
+            function getSubjectStyle(subject) {
+                const s = subject.toLowerCase();
+                if (s.includes('math')) return { icon: 'fa-calculator', bg: 'bg-clevr-purple' };
+                if (s.includes('science') || s.includes('fisika') || s.includes('kimia') || s.includes('biologi')) return { icon: 'fa-flask', bg: 'bg-clevr-orange' };
+                if (s.includes('history') || s.includes('sejarah')) return { icon: 'fa-landmark', bg: 'bg-clevr-dark' };
+                if (s.includes('english') || s.includes('bahasa')) return { icon: 'fa-language', bg: 'bg-primary' };
+                return { icon: 'fa-book', bg: 'bg-secondary' }; // Default
+            }
+
+            // --- SORTING ---
+            allClasses.sort((a, b) => getMinutes(a.time) - getMinutes(b.time));
+
+            if (allClasses.length > 0) {
+                container.innerHTML = ''; // Reset container
+
+                const simulatedCurrentTime = 15 * 60; // 15:00
+
+                allClasses.forEach(item => {
+                    const classTimeVal = getMinutes(item.time);
+                    const diff = classTimeVal - simulatedCurrentTime; 
+                    const isToday = classTimeVal < 24 * 60;
+                    
+                    let btnHtml = '';
+                    // Logic Tombol (Sama dengan myclasses.html)
+                    if (isToday && diff >= -10 && diff <= 15) {
+                        btnHtml = `<span class="badge bg-clevr-pink text-dark rounded-pill px-3 py-2 cursor-pointer btn-animate" onclick="showNotification()">Start Class</span>`;
+                    } else {
+                        btnHtml = `<span class="badge bg-secondary bg-opacity-10 text-dark rounded-pill px-3 py-2">Upcoming</span>`;
+                    }
+
+                    // Get Icon Style
+                    const style = getSubjectStyle(item.subject);
+
+                    // Render List Item (Gaya Profile.html)
+                    const itemHtml = `
+                        <div class="class-list-item">
+                            <div class="subject-icon ${style.bg}">
+                                <i class="fa-solid ${style.icon}"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="text-secondary fw-bold" style="font-size: 0.8rem;">${item.time} WIB</div>
+                                <div class="fw-bold text-dark fs-5">${item.subject}</div>
+                                <div class="small text-muted">With Tutor ${item.tutorName}</div>
+                            </div>
+                            <div class="text-end">
+                                ${btnHtml}
+                            </div>
+                        </div>
                     `;
-                    cloverPackagesContainer.appendChild(pkgEl);
+                    container.innerHTML += itemHtml;
                 });
-            };
-            
-            // Render Profile Page (Sudah benar, tinggal tambah tombol logout)
-             const renderProfilePage = (editMode = false) => {
-                let userProfile;
-                if (currentLoggedInUser === 'student') {
-                    userProfile = studentProfile;
-                } else if (tutors[currentLoggedInUser]) {
-                    userProfile = tutors[currentLoggedInUser];
-                } else { 
-                    // Jika data user tidak ditemukan (error), paksa logout
-                    localStorage.removeItem('clevrLoggedInUserId');
-                    window.location.href = 'login.html';
-                    return; 
-                }
-
-                // Adjust header visibility
-                const profileNav = document.getElementById('profile-nav');
-                const wallet = profileNav.querySelector('.clover-wallet');
-                const myClasses = profileNav.querySelector('.nav-my-classes');
-                if (currentLoggedInUser === 'student') {
-                    wallet.classList.remove('d-none');
-                    myClasses.classList.remove('d-none');
-                } else {
-                    wallet.classList.add('d-none');
-                    myClasses.classList.add('d-none');
-                }
-
-                const headerContent = document.getElementById('profile-header-content');
-                const detailsContent = document.getElementById('profile-details-content');
-                const roleText = currentLoggedInUser === 'student' ? 'Student' : 'Clevr Tutor';
-
-                if (editMode) {
-                    headerContent.innerHTML = `
-                        <div class="flex-grow">
-                           <input id="edit-profile-name" class="text-3xl font-bold w-full border-b-2" value="${userProfile.name}">
-                           <p class="text-lg text-purple-600 font-semibold">${roleText}</p>
-                           <button id="save-profile-btn" class="mt-4 bg-green-500 text-white font-bold py-2 px-6 rounded-full inline-block shadow-md hover:bg-green-600 transition-colors">Save Changes</button>
-                        </div>`;
-                    detailsContent.innerHTML = `
-                         <div class="space-y-4">
-                            <div>
-                                <h3 class="font-semibold text-gray-500 text-sm">Date of Birth</h3>
-                                <input id="edit-profile-dob" class="text-gray-800 w-full border-b" value="${userProfile.dob}">
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-500 text-sm">Education</h3>
-                                <input id="edit-profile-education" class="text-gray-800 w-full border-b" value="${userProfile.education}">
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-500 text-sm">Address</h3>
-                                <input id="edit-profile-address" class="text-gray-800 w-full border-b" value="${userProfile.address}">
-                            </div>
-                        </div>`;
-                } else {
-                    // === PERBAIKAN 4: TAMBAHKAN TOMBOL LOGOUT ===
-                    headerContent.innerHTML = `
-                        <div class="flex-grow">
-                            <h1 id="profile-page-name" class="text-3xl font-bold">${userProfile.name}</h1>
-                            <p id="profile-page-role" class="text-lg text-purple-600 font-semibold">${roleText}</p>
-                            <div class="mt-4 space-x-2">
-                                <button id="edit-profile-btn" class="bg-purple-600 text-white font-bold py-2 px-6 rounded-full inline-block shadow-md hover:bg-purple-700 transition-colors">Edit Profile</button>
-                                <button id="logout-btn" class="bg-red-500 text-white font-bold py-2 px-6 rounded-full inline-block shadow-md hover:bg-red-600 transition-colors">Log Out</button>
-                            </div>
-                        </div>`;
-                    // === SELESAI PERBAIKAN 4 ===
-                    detailsContent.innerHTML = `
-                        <div class="space-y-4">
-                            <div>
-                                <h3 class="font-semibold text-gray-500 text-sm">Date of Birth</h3>
-                                <p id="profile-page-dob" class="text-gray-800">${userProfile.dob}</p>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-500 text-sm">Education</h3>
-                                <p id="profile-page-education" class="text-gray-800">${userProfile.education}</p>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-500 text-sm">Address</h3>
-                                <p id="profile-page-address" class="text-gray-800">${userProfile.address}</p>
-                            </div>
-                        </div>`;
-                }
-                document.getElementById('profile-page-image').src = userProfile.detailImg || userProfile.img || 'https://placehold.co/128x128';
-            };
-
-
-            // Hide Modals
-            const hideCloverModal = () => {
-                buyCloverModal.classList.add('d-none');
-                 if(notificationModal.classList.contains('d-none')) {
-                    document.body.classList.remove('overflow-hidden');
-                }
-            };
-
-
-            // --- PAGE LOGIC ---
-            
-            // HAPUS BLOK SIMULASI LOGIN YANG LAMA
-            
-            // Initial renders on page load
-            updateCloverDisplay();
-            renderCloverPackages();
-            renderProfilePage(false); // Render profil berdasarkan user yang login
-            // --- AKHIR SIMULASI ---
-
-
-            // --- EVENT LISTENERS (Hanya yang relevan) ---
-            
-            // Open Buy Clover Modal
-            openCloverModalBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    buyCloverModal.classList.remove('d-none');
-                    document.body.classList.add('overflow-hidden');
-                });
-            });
-
-
-            // Clover Payment Flow (Sudah benar)
-            const paymentModalTitle = document.getElementById('payment-modal-title');
-            const packagesContainer = document.getElementById('clover-packages-container');
-            const methodsContainer = document.getElementById('payment-methods-container');
-            const instructionsContainer = document.getElementById('payment-instructions-container');
-
-            if (packagesContainer) {
-                packagesContainer.addEventListener('click', (e) => {
-                    if(e.target.classList.contains('buy-clover-btn')) {
-                        const clovers = e.target.dataset.clovers;
-                        const price = cloverPackages.find(p => p.clovers == clovers).price;
-                        currentCloverPackage = { clovers: parseInt(clovers), price: price };
-                        
-                        paymentModalTitle.textContent = `Pay ${price}`;
-                        packagesContainer.classList.add('d-none');
-                        methodsContainer.classList.remove('d-none');
-                    }
-                });
+            } else {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-muted">
+                        <i class="fa-regular fa-calendar-xmark fa-2x mb-2 opacity-50"></i>
+                        <p class="small fw-bold">No upcoming classes.</p>
+                    </div>`;
             }
-
-            if (methodsContainer) {
-                methodsContainer.addEventListener('click', (e) => {
-                    const target = e.target.closest('.payment-method-btn');
-                    if (target) {
-                        const method = target.dataset.method;
-                        document.getElementById('payment-instruction-title').textContent = `Instructions for ${method}`;
-                        document.getElementById('payment-instruction-steps').innerHTML = `
-                            <p>1. Open your ${method} application.</p>
-                            <p>2. Transfer to account number <strong>123-456-7890</strong> under the name <strong>CLEVR Edu</strong>.</p>
-                            <p>3. Ensure the amount is exactly <strong>${currentCloverPackage.price}</strong>.</p>
-                            <p>4. Click the button below once you have completed the transfer.</p>
-                        `;
-                        methodsContainer.classList.add('d-none');
-                        instructionsContainer.classList.remove('d-none');
-                    } else if (e.target.closest('.payment-back-btn')) {
-                        paymentModalTitle.textContent = `Pay ${currentCloverPackage.price}`;
-                        instructionsContainer.classList.add('d-none');
-                        methodsContainer.classList.remove('d-none');
-                    }
-                });
-            }
-
-            if (instructionsContainer) {
-                instructionsContainer.addEventListener('click', (e) => {
-                    if (e.target.id === 'confirm-transfer-btn') {
-                        hideCMploverModal();
-                        showNotification("Admin is checking your payment, Clovers will be added soon.", null, false);
-                        
-                        setTimeout(() => {
-                            hideNotification();
-                            setTimeout(() => {
-                                user.clovers += currentCloverPackage.clovers;
-                                // === PERBAIKAN 5: PANGGIL saveData() ===
-                                // Simpan jumlah clover baru
-                                saveData(); 
-                                // === SELESAI PERBAIKAN 5 ===
-                                updateCloverDisplay();
-                                showNotification(`${currentCloverPackage.clovers} Clovers added successfully!`, true);
-                            }, 400);
-                        }, 2500);
-                    } else if (e.target.closest('.payment-back-btn')) {
-                        paymentModalTitle.textContent = `Pay ${currentCloverPackage.price}`;
-                        instructionsContainer.classList.add('d-none');
-                        methodsContainer.classList.remove('d-none');
-                    }
-                });
-            }
-
-
-            // Modal Close Buttons
-            closeCloverModalBtn.addEventListener('click', () => {
-                // Reset payment modal to initial state
-                paymentModalTitle.textContent = 'Buy Clovers';
-                instructionsContainer.classList.add('d-none');
-                methodsContainer.classList.add('d-none');
-                packagesContainer.classList.remove('d-none');
-                hideCloverModal();
-            });
-            notificationCloseBtn.addEventListener('click', hideNotification);
-            
-            // Close Modal on Overlay Click
-            buyCloverModal.addEventListener('click', (e) => { if(e.target === buyCloverModal) closeCloverModalBtn.click(); });
-            notificationModal.addEventListener('click', (e) => { if(e.target === notificationModal) hideNotification(); });
-
-            
-             // Profile Page: Edit/Save logic
-            document.getElementById('profilePage').addEventListener('click', (e) => {
-                if (e.target.id === 'edit-profile-btn') {
-                    renderProfilePage(true);
-                } else if (e.target.id === 'save-profile-btn') {
-                    // Get new values
-                    const newName = document.getElementById('edit-profile-name').value;
-                    const newDob = document.getElementById('edit-profile-dob').value;
-                    const newEducation = document.getElementById('edit-profile-education').value;
-                    const newAddress = document.getElementById('edit-profile-address').value;
-
-                    // Update data object
-                    if (currentLoggedInUser === 'student') {
-                        studentProfile.name = newName;
-                        studentProfile.dob = newDob;
-                        studentProfile.education = newEducation;
-                        studentProfile.address = newAddress;
-                    } else if (tutors[currentLoggedInUser]) {
-                        tutors[currentLoggedInUser].name = newName;
-                        tutors[currentLoggedInUser].dob = newDob;
-                        tutors[currentLoggedInUser].education = newEducation;
-                        tutors[currentLoggedInUser].address = newAddress;
-                    }
-
-                    // === PERBAIKAN 6: PANGGIL saveData() ===
-                    // Simpan perubahan profil ke localStorage
-                    saveData();
-                    // === SELESAI PERBAIKAN 6 ===
-
-                    renderProfilePage(false); // Switch back to view mode
-                    
-                    // Tampilkan notifikasi setelah menyimpan
-                    showNotification("Profile updated successfully!", true);
-                }
-                // === PERBAIKAN 7: TAMBAHKAN LOGIKA LOGOUT ===
-                else if (e.target.id === 'logout-btn') {
-                    // Hapus data login dari localStorage
-                    localStorage.removeItem('clevrLoggedInUserId');
-                    
-                    // (Opsional) Hapus semua data untuk simulasi bersih
-                    // localStorage.clear(); 
-                    
-                    // Kembali ke halaman login
-                    window.location.href = 'login.html'; // Pastikan ini nama file login Anda
-                }
-                // === SELESAI PERBAIKAN 7 ===
-            });
-            
-            // Semua listener lain (navigasi, chat, home, dll) telah dihapus.
         });
     </script>
 </body>
